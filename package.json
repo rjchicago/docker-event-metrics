@@ -1,0 +1,36 @@
+{
+  "name": "docker-event-metrics",
+  "version": "0.0.1",
+  "description": "Docker Event Metrics",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "debug": "nodemon --inspect=0.0.0.0:9229 ./src/index.js",
+    "eslint": "eslint '**/*.js' --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rjchicago/docker-event-metrics.git"
+  },
+  "keywords": [
+    "Docker",
+    "Event",
+    "Metrics",
+    "Prometheus"
+  ],
+  "author": "rjchicago",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rjchicago/docker-event-metrics/issues"
+  },
+  "homepage": "https://github.com/rjchicago/docker-event-metrics#readme",
+  "dependencies": {
+    "@rjchicago/docker-event-stream": "^0.2",
+    "express": "^4.17.2",
+    "prom-client": "^14.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^8.7",
+    "nodemon": "^2.0"
+  }
+}

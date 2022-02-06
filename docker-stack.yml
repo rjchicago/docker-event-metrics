@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  swarm:
+    image: rjchicago/docker-event-metrics:${VERSION:-latest}
+    environment:
+      ENV: "${ENV:-local}"
+      OPTIONS: '{"filter": {"scope": "swarm"}}'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8076:3000"
+    deploy:
+      replicas: 1
+
+  local:
+    image: rjchicago/docker-event-metrics:${VERSION:-latest}
+    environment:
+      ENV: "${ENV:-local}"
+      INSTANCE: "{{.Node.Hostname}}"
+      OPTIONS: '{"filter": {"scope": "local"}}'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8077:3000"
+    deploy:
+      mode: global
+    

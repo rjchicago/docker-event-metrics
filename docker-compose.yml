@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  docker-event-metrics:
+    image: rjchicago/docker-event-metrics:${VERSION:-latest}
+    container_name: docker-event-metrics
+    build: .
+    command: npm run debug
+    environment:
+      INSTANCE: "localhost"
+      ENV: "${ENV:-local}"
+      OPTIONS: '{"filter": {"scope": "local"}}'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./package.json:/usr/app/package.json
+      - ./src:/usr/app/src
+    ports:
+      - "3000:3000"
+      - "9229:9229"
