@@ -1,9 +1,22 @@
 # Docker Swarm
 
+Copy [docker-stack.yml](./docker-stack.yml) and [prometheus.yml](./prometheus.yml) to a local directory.
+
+If you're not running in Swarm mode yet, simply run:
+
+``` sh
+docker swarm init
+```
+
+Then proceed to deploy.
+
 ## deploy
 
 ``` sh
 docker stack deploy -c docker-stack.yml docker-event-metrics --prune
+
+# check services until all are up and running
+docker service ls 
 ```
 
 ## test
