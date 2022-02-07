@@ -1,8 +1,13 @@
 version: "3.8"
 
+networks:
+  docker-event-metrics-net:
+
 services:
   swarm:
     image: rjchicago/docker-event-metrics:${VERSION:-latest}
+    networks:
+      - docker-event-metrics-net
     environment:
       ENV: "${ENV:-local}"
       OPTIONS: '{"filter": {"scope": "swarm"}}'
@@ -15,6 +20,8 @@ services:
 
   local:
     image: rjchicago/docker-event-metrics:${VERSION:-latest}
+    networks:
+      - docker-event-metrics-net
     environment:
       ENV: "${ENV:-local}"
       INSTANCE: "{{.Node.Hostname}}"
@@ -25,4 +32,22 @@ services:
       - "8077:3000"
     deploy:
       mode: global
-    
+
+  prometheus:
+    image: prom/prometheus
+    networks:
+      - docker-event-metrics-net
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    deploy:
+      replicas: 1
+  
+  test:
+    image: alpine
+    command: tail -f /dev/null
+    networks:
+      - docker-event-metrics-net
+    deploy:
+      replicas: 1
