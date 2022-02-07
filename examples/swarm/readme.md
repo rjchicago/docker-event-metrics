@@ -2,10 +2,15 @@
 
 Copy [docker-stack.yml](./docker-stack.yml) and [prometheus.yml](./prometheus.yml) to a local directory.
 
+``` sh
+wget https://raw.githubusercontent.com/rjchicago/docker-event-metrics/master/examples/swarm/docker-stack.yml
+wget https://raw.githubusercontent.com/rjchicago/docker-event-metrics/master/examples/swarm/prometheus.yml
+```
+
 If you're not running in Swarm mode yet, simply run:
 
 ``` sh
-docker swarm init
+docker swarm init > /dev/null
 ```
 
 Then proceed to deploy.
@@ -26,7 +31,7 @@ Create some test events...
 ``` sh
 docker network create test
 docker network rm test
-docker run -it --rm alpine echo "hello"
+docker run --rm alpine echo "hello"
 docker service update --replicas 3 docker-event-metrics_test
 docker service rm docker-event-metrics_test
 
@@ -69,4 +74,5 @@ rate(docker_events{type="container", action="start"}[2m]) > 0
 
 ``` sh
 docker stack rm docker-event-metrics
+docker service rm docker-event-metrics_testy
 ```
