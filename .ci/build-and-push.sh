@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 # set -Eeuo pipefail
 
 if [ ! -f ci.env ]; then
