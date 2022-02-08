@@ -4,7 +4,9 @@ services:
   docker-event-metrics:
     image: rjchicago/docker-event-metrics:${VERSION:-latest}
     container_name: docker-event-metrics
-    build: .
+    build:
+      context: .
+      target: ${TARGET:-development}
     command: npm run debug
     environment:
       INSTANCE: "localhost"
