@@ -9,10 +9,10 @@ REGISTRY_PASSWORD=${REGISTRY_PASSWORD:-}
 TARGET="production"
 VERSION=$(jq -r .version package.json)
 
-if [[ ! -z $REGISTRY_USER ]] ; then
+if [[ -z $REGISTRY_USER ]] ; then
   echo "REGISTRY_USER is required" && exit 1
 fi
-if [[ ! -z $REGISTRY_PASSWORD ]] ; then
+if [[ -z $REGISTRY_PASSWORD ]] ; then
   echo "REGISTRY_PASSWORD is required" && exit 1
 fi
 
