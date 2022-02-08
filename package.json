@@ -1,6 +1,6 @@
 {
   "name": "docker-event-metrics",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Docker Event Metrics",
   "main": "./src/index.js",
   "scripts": {
