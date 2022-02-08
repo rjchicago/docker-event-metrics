@@ -38,20 +38,20 @@ fi
 #   read -s REGISTRY_PASSWORD
 # fi
 
-function docker_login() {
+function docker_login {
   if [[ ! -z $REGISTRY_PASSWORD ]] ; then
     export DOCKER_CONFIG="$(pwd)/.docker"
     echo "$REGISTRY_PASSWORD" | docker login -u $REGISTRY_USER --password-stdin $REGISTRY_URL
   fi
 }
 
-function docker_logout() {
+function docker_logout {
   if [[ ! -z $REGISTRY_PASSWORD ]] ; then
     docker logout $REGISTRY_URL
   fi
 }
 
-function build_and_push() {
+function build_and_push {
   VERSION=$1 docker-compose -f $COMPOSE_FILE build
   if [[ ! -z $REGISTRY_PASSWORD ]] ; then
     VERSION=$1 docker-compose -f $COMPOSE_FILE push
