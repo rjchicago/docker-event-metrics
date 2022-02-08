@@ -18,6 +18,4 @@ jobs:
       env:
         REGISTRY_USER: ${{ secrets.DOCKERHUB_USER }}
         REGISTRY_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
-      run: |
-        bash .ci/set-ci-vars.sh
-        bash .ci/build-and-push.sh
+      run: bash .ci/build-and-push.sh
