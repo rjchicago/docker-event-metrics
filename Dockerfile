@@ -12,13 +12,13 @@ FROM base as prereq
 COPY ./package*.json ./
 RUN npm install --silent --unsafe-perm --no-audit --no-progress --only=production
 
+# -------- PRODUCTION --------
+FROM prereq as production
+COPY ./src ./src
+CMD npm run start
+
 # ---------- DEVELOPMENT ----------
 FROM prereq as development
 RUN npm install --silent --unsafe-perm --no-audit --no-progress --only=development
 COPY ./src ./src
 CMD npm run debug
-
-# -------- PRODUCTION --------
-FROM prereq as production
-COPY ./src ./src
-CMD npm run start
