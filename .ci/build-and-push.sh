@@ -26,13 +26,13 @@ function docker_logout {
 }
 
 function build_and_push {
-  export TARGET=$1
-  export VERSION=$2
+  TARGET=$1
+  VERSION=$2
   echo "build_and_push:
   - TARGET=$TARGET
   - VERSION=$VERSION"
-  docker-compose -f $COMPOSE_FILE build
-  docker-compose -f $COMPOSE_FILE push
+  TARGET=$TARGET VERSION=$VERSION docker-compose -f $COMPOSE_FILE build
+  TARGET=$TARGET VERSION=$VERSION docker-compose -f $COMPOSE_FILE push
 }
 
 docker_login
