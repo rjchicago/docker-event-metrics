@@ -1,23 +1,20 @@
 # Docker Swarm
 
-Copy [docker-stack.yml](./docker-stack.yml) and [prometheus.yml](./prometheus.yml) to a local directory.
+Copy [docker-stack.yml](./docker-stack.yml) and [prometheus.yml](./prometheus.yml) to a local directory and proceed to deploy the stack locally...
 
 ``` sh
+# create demo directory
+mkdir docker-event-metrics-demo
+cd docker-event-metrics-demo
+
+# copy required config
 wget https://raw.githubusercontent.com/rjchicago/docker-event-metrics/master/examples/swarm/docker-stack.yml
 wget https://raw.githubusercontent.com/rjchicago/docker-event-metrics/master/examples/swarm/prometheus.yml
-```
 
-If you're not running in Swarm mode yet, simply run:
-
-``` sh
+# init swarm mode
 docker swarm init > /dev/null
-```
 
-Then proceed to deploy.
-
-## deploy
-
-``` sh
+#deploy
 docker stack deploy -c docker-stack.yml docker-event-metrics --prune
 
 # check services until all are up and running

@@ -29,8 +29,8 @@ function build_and_push {
   export TARGET=$1
   export VERSION=$2
   echo "build_and_push:
-  - VERSION=$VERSION
-  - TARGET=$TARGET"
+  - TARGET=$TARGET
+  - VERSION=$VERSION"
   docker-compose -f $COMPOSE_FILE build
   docker-compose -f $COMPOSE_FILE push
 }
