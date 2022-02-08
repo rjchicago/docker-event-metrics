@@ -1,5 +1,5 @@
-#!/bin/sh
-# set -Eeuo pipefail
+#!/bin/bash
+set -Eeuo pipefail
 
 if [ ! -f ci.env ]; then
     echo "ci.env required"
