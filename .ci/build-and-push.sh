@@ -3,7 +3,7 @@ set -e
 
 VERSION=$(jq -r .version package.json)
 TAG="v${VERSION}"
-if [ $(git tag -l $TAG ) ]; then
+if [ $(git tag -l "$TAG" ) ]; then
     echo "TAG EXISTS: $TAG"
     exit 0
 else
@@ -47,5 +47,5 @@ build_and_push "production" $VERSION
 build_and_push "production" "latest"
 docker_logout
 
-git tag $TAG
-git push origin $TAG
+git tag "$TAG"
+git push origin "$TAG"
