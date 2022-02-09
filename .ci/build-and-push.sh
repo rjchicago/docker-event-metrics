@@ -3,6 +3,7 @@ set -e
 
 VERSION=$(jq -r .version package.json)
 TAG="v${VERSION}"
+git fetch --all --tags
 TAG_EXISTS=$(git tag -l "$TAG")
 echo "TAG_EXISTS=$TAG_EXISTS"
 if [ ! -z $TAG_EXISTS ]; then
