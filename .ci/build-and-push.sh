@@ -35,7 +35,7 @@ function build_and_push {
   TARGET=$T VERSION=$V docker-compose -f $COMPOSE_FILE push
 }
 
-VERSION=$(jq -r .version service/package.json)
+VERSION=$(jq -r .version package.json)
 
 docker_login
 build_and_push "production" $VERSION
