@@ -26,16 +26,21 @@ function docker_logout {
 }
 
 function build_and_push {
-  TARGET=$1
-  VERSION=$2
+  T=$1
+  V=$2
   echo "build_and_push:
-  - TARGET=$TARGET
-  - VERSION=$VERSION"
-  TARGET=$TARGET VERSION=$VERSION docker-compose -f $COMPOSE_FILE build
-  TARGET=$TARGET VERSION=$VERSION docker-compose -f $COMPOSE_FILE push
+  - TARGET=$T
+  - VERSION=$V"
+  TARGET=$T VERSION=$V docker-compose -f $COMPOSE_FILE build
+  TARGET=$T VERSION=$V docker-compose -f $COMPOSE_FILE push
 }
 
+VERSION=$(jq -r .version service/package.json)
+
 docker_login
-build_and_push "production" $(jq -r .version package.json)
+build_and_push "production" $VERSION
 build_and_push "production" "latest"
 docker_logout
+
+git tag $VERSION
+git push origin $VERSION
