@@ -3,7 +3,8 @@ set -e
 
 VERSION=$(jq -r .version package.json)
 TAG="v${VERSION}"
-if [ "$(git tag -l "$TAG")" = "$TAG" ]; then
+TAG_EXISTS=$(git tag -l "$TAG")
+if [ ! -z $TAG_EXISTS ]; then
   echo "TAG EXISTS: $TAG"
   exit 0
 fi
