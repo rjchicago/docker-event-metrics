@@ -1,0 +1,75 @@
+version: "3.8"
+
+networks:
+  docker-event-metrics-net:
+    driver: overlay
+    attachable: true
+
+volumes:
+  prometheus_files:
+  # prometheus_data:
+
+
+services:
+
+  swarm:
+    image: rjchicago/docker-event-metrics:${VERSION:-latest}
+    networks:
+      - docker-event-metrics-net
+    environment:
+      ENV: "${ENV:-local}"
+      OPTIONS: '{"filter": {"scope": "swarm"}}'
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "3000:3000" # not required - exposing for local testing
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+
+  wrapper:
+    image: rjchicago/docker-event-metrics-wrapper:${VERSION:-latest}
+    build:
+      context: docker-event-metrics-wrapper
+    environment:
+      INSTANCE: "localhost"
+      ENV: "${ENV:-local}"
+      OPTIONS: '{"filter": {"scope": "local"}}'
+      CONTAINER_NAME: dem_local
+      PORT: 8077
+      IMAGE: rjchicago/docker-event-metrics:${VERSION:-latest}
+      NETWORK: dem_docker-event-metrics-net
+      PROMETHEUS_TARGET_FILE: /etc/prometheus/files/docker-events-local.yml
+      PROMETHEUS_RELOAD_URL: http://prometheus:9090/-/reload
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - prometheus_files:/etc/prometheus/files
+    deploy:
+      mode: global
+
+  prometheus:
+    image: prom/prometheus
+    # command:
+    #   - "--config.file=/etc/prometheus/prometheus.yml"
+      # - "--storage.tsdb.path=/prometheus_data"
+      # - "--storage.tsdb.retention.time=30d"
+      # - "--web.enable-lifecycle"
+      # - "--web.external-url=http://localhost:9090"
+    networks:
+      - docker-event-metrics-net
+    volumes:
+      - ./config/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_files:/etc/prometheus/files
+      # - prometheus_data:/prometheus_data
+    ports:
+      - "9090:9090"
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 4
+        window: 0s
+

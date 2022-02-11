@@ -2,9 +2,9 @@ const DockerEventStream = require('@rjchicago/docker-event-stream');
 const MetricService = require('./MetricService');
 const express = require('express');
 const http = require('http');
+require('./ParentProcessUtil').init();
 
 const options = process.env.OPTIONS ? JSON.parse(process.env.OPTIONS) : {};
-
 DockerEventStream.init(options);
 DockerEventStream.on('event', MetricService.push);
 
