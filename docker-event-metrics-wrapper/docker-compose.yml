@@ -1,0 +1,21 @@
+version: "3.8"
+
+services:
+
+  wrapper:
+    image: rjchicago/docker-event-metrics-wrapper:${VERSION:-latest}
+    build:
+      context: .
+    environment:
+      INSTANCE: "localhost"
+      ENV: "${ENV:-local}"
+      OPTIONS: '{"filter": {"scope": "local"}}'
+      CONTAINER_NAME: dem_local
+      PORT: 8077
+      IMAGE: rjchicago/docker-event-metrics:${VERSION:-latest}
+      NETWORK: docker-event-metrics-net
+      PROMETHEUS_TARGET_FILE: /etc/prometheus/files/docker-events-local.yml
+      # PROMETHEUS_RELOAD_URL: http://prometheus:9090/-/reload
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./temp:/etc/prometheus/files
