@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-VERSION=$(jq -r .version package.json)
+VERSION=$(jq -r .version ./docker-event-metrics/package.json)
 TAG="v${VERSION}"
 
 # exit if tag exists
