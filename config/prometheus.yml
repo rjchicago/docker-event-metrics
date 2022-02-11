@@ -1,0 +1,26 @@
+
+global:
+  scrape_interval: 1m
+  scrape_timeout: 30s
+  evaluation_interval: 30s
+
+scrape_configs:
+
+- job_name: 'docker-events-swarm'
+  static_configs:
+    - targets: [swarm:3000]
+
+- job_name: 'docker-events-local'
+  file_sd_configs:
+  - files:
+    - files/docker-events-local.yml
+  # relabel_configs:
+  #   - source_labels: [instance]
+  #     target_label: __tmp_instance
+  #     regex: '(.+)'
+  #     replacement: '${1};'
+  #   - source_labels: [__tmp_instance, __address__]
+  #     separator: ''
+  #     target_label: instance
+  #     regex: '([^:;]+)((:[0-9]+)?|;(.*))'
+  #     replacement: '${1}'
